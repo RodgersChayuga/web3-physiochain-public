@@ -1,10 +1,205 @@
 # Project Proposal: PhysioChain - Core Infrastructure MVP
 
-## Table of Contents
+<div class="tabs">
+    <input type="radio" id="tab1" name="tab-control" checked>
+    <input type="radio" id="tab2" name="tab-control">
+    <input type="radio" id="tab3" name="tab-control">
+    <input type="radio" id="tab4" name="tab-control">
+    <input type="radio" id="tab5" name="tab-control">
+<ul>
+        <li title="Overview"><label for="tab1" role="button">Overview</label></li>
+        <li title="Installation"><label for="tab2" role="button">Installation</label></li>
+        <li title="Work-Plan"><label for="tab3" role="button">Work Plan</label></li>
+        <li title="Folder-Structure"><label for="tab4" role="button">Folder Structure</label></li>
+        <li title="contribution"><label for="tab5" role="button">Contribution</label></li>
+    </ul>
+
+<div class="slider">
+<div class="indicator"></div>
+</div>
+<div class="content">
+<section>
 
 
-<details>
-<summary><strong>Installation</strong></summary>
+
+## Executive Summary
+PhysioChain is a decentralized, AI-powered physiotherapy platform that revolutionizes patient care by combining blockchain technology and artificial intelligence. For this MVP, we will focus on building the **Core Infrastructure**, which includes smart contracts for treatment plans, token rewards, and access control, as well as basic Web3 integration for patient and doctor interactions. This foundational layer will enable secure, transparent, and scalable operations for future features like AI exercise validation and advanced analytics.
+
+### The MVP will demonstrate:
+1. Decentralized identity (DID) for secure logins.
+2. Smart contract-based treatment plans stored as NFTs.
+3. A tokenized rewards system ($PHYSIO) for incentivizing patient adherence.
+4. Basic frontend interfaces for patients and doctors to interact with the platform.
+
+## Problem Statement
+Current physiotherapy practices face several challenges that can be addressed by the Core Infrastructure MVP:
+1. **Limited Patient Monitoring**: Patients are only monitored during in-person sessions, leading to gaps in care.
+2. **Inconsistent Exercise Adherence**: Patients often fail to perform exercises correctly or consistently at home.
+3. **Manual Progress Tracking**: Physiotherapists rely on manual documentation, which is time-consuming and error-prone.
+4. **Data Privacy Concerns**: Centralized systems raise privacy and security concerns for sensitive patient data.
+
+This MVP lays the foundation for addressing these challenges by enabling secure, decentralized, and incentivized patient engagement.
+
+---
+
+## Solution Overview (Core Infrastructure MVP)
+
+### Key Features of the MVP
+1. **Decentralized Identity (DID)**:
+   
+    >Secure, privacy-preserving logins for patients and doctors using blockchain-based DID.
+   
+    >Ensures users have full control over their identities without relying on centralized servers.
+
+2. **Smart Contract-Based Treatment Plans**:
+
+    >Treatment plans stored as NFTs (ERC-721 or ERC-1155) on the blockchain.
+
+    >Immutable and transparent storage ensures trust and accountability.
+
+3. **Tokenized Rewards System**:
+
+    >Patients earn $PHYSIO tokens for completing prescribed exercises (to be validated manually in this MVP).
+
+    >Tokens can be redeemed for discounts, health products, or converted to fiat currency.
+
+4. **Access Control**:
+
+    >Role-based access control (RBAC) implemented via smart contracts.
+
+    >Patients grant temporary access to their records for specific doctors, logged on the blockchain for transparency.
+
+5. **Basic Frontend Interfaces**:
+   > **Patient App**: Allows patients to view treatment plans, track progress, and claim rewards.
+
+   > **Doctor App**: Enables doctors to create treatment plans, monitor patient adherence, and access anonymized data.
+
+6. **Gas Optimization**:
+   > Use Layer 2 solutions like Polygon to reduce transaction costs and improve scalability.
+
+---
+
+## Technical Implementation (Core Infrastructure MVP)
+
+### System Architecture
+1. **Frontend**:
+   1. Built with **React Native** or **Flutter** for cross-platform compatibility.
+   
+        Features:
+        > Patient dashboard for viewing treatment plans and tracking rewards.
+
+        > Doctor dashboard for creating treatment plans and monitoring patient progress.
+
+2. **Backend**:
+   1. **Smart Contracts**: Developed in **Solidity** (Ethereum) or **Rust** (Solana).
+
+       Functions: 
+       > Create and store treatment plans as NFTs.
+
+       > Manage token rewards and distribution.
+
+       > Enforce role-based access control (RBAC).
+   
+   2. **Decentralized Storage**: Use **IPFS** for storing metadata related to treatment plans.
+
+3. **Blockchain Integration**:
+   > Deploy smart contracts on Ethereum (testnet) or Polygon (mainnet/testnet).
+   > Use **Web3.js** or **ethers.js** for blockchain interactions in the frontend.
+
+4. **Tokenomics**:
+   > Implement a simple ERC-20 token ($PHYSIO) for rewards.
+
+   > Integrate a token faucet for testing purposes.
+
+---
+
+## Development Phases (MVP Timeline)
+
+### Phase 1: Planning and Setup (February 1 - February 5)
+1. Define requirements and finalize technical specifications.
+2. Set up development environment:
+    > Install tools like Hardhat/Truffle for smart contract development.
+
+    > Configure React Native/Flutter for frontend development.
+    
+    > Set up IPFS for decentralized storage.
+
+### Phase 2: Smart Contract Development (February 6 - February 12)
+1. Develop and test core smart contracts:
+  
+    > Treatment plan creation and storage as NFTs.
+  
+    > Token rewards system ($PHYSIO).
+  
+    > Access control mechanisms (RBAC).
+2. Optimize gas usage using Layer 2 solutions (Polygon).
+
+### Phase 3: Frontend Development (February 13 - February 17)
+1. Build basic frontend interfaces:
+    
+    > Patient app: View treatment plans, track rewards.
+    
+    > Doctor app: Create treatment plans, monitor adherence.
+2. Integrate Web3.js/ethers.js for blockchain interactions.
+
+### Phase 4: Testing and Deployment (February 18 - February 20)
+1. Conduct end-to-end testing:
+  
+    > Test smart contract functionality (e.g., minting NFTs, distributing tokens).
+  
+    > Test frontend interactions (e.g., login, viewing plans, claiming rewards).
+2. Deploy smart contracts on Polygon testnet/mainnet.
+3. Deploy frontend apps for demonstration.
+
+---
+
+### Success Metrics (MVP)
+1. **Technical Metrics**:
+    
+    > Successful deployment of smart contracts on Polygon.
+    
+    > Functional token rewards system ($PHYSIO).
+    
+    > Proper implementation of RBAC for access control.
+
+2. **User Metrics**:
+    
+    > Ability for patients to view treatment plans and claim rewards.
+    
+    > Ability for doctors to create treatment plans and monitor adherence.
+
+---
+
+### Risk Assessment (MVP)
+1. **Technical Risks**:
+    
+    > Smart contract vulnerabilities (e.g., reentrancy attacks).
+    
+    > Gas optimization challenges on Ethereum mainnet.
+    
+    > Integration issues between frontend and blockchain.
+
+2. **Mitigation Strategies**:
+    
+    > Conduct thorough testing and audits of smart contracts.
+    
+    > Use Polygon for gas-efficient transactions.
+    
+    > Start with a minimal feature set to ensure stability.
+
+
+---
+
+### Conclusion
+The Core Infrastructure MVP of PhysioChain lays the foundation for a decentralized, AI-powered physiotherapy platform. By focusing on secure treatment plans, tokenized rewards, and role-based access control, this MVP demonstrates the potential of blockchain technology to address key challenges in physiotherapy. With its scalable architecture and user-friendly design, the MVP sets the stage for future enhancements, including AI exercise validation and advanced analytics.
+
+By February 20th, you will have a functional prototype that showcases the power of Web3 in healthcare, positioning PhysioChain as a transformative solution for patient care.
+
+
+
+</section>
+
+<section>
 
 ## **Installation and Cloning Process**
 ### 1. Prerequisites
@@ -262,11 +457,9 @@ Before proceeding, ensure you have the following tools installed on your system:
 ---
 
 This guide provides a clear, step-by-step process for both new development and cloning the project. By following these instructions, you’ll have a fully functional development environment ready for building and testing PhysioChain MVP. Good luck! 🚀
+</section>
 
-</details>
-
-<details>
-<summary><strong>Work Plan</strong></summary>
+<section>
 
 ## **Work Plan (Day-by-Day Breakdown)**
 
@@ -464,12 +657,9 @@ This guide provides a clear, step-by-step process for both new development and c
 ---
 
 This day-by-day breakdown ensures you have a clear plan for each day, helping me focused and productive.
+</section>
 
-
-</details>
-
-<details>
-<summary><strong>Folder Structure</strong></summary>
+<section>
 
 ## **Comprehensive Monorepo Folder Structure**
 
@@ -514,24 +704,56 @@ PhysioChain-MVP/
 └── package.json              # Root-level dependencies (e.g., Hardhat)
 ```
 
+</section>
 
-</details>
+<section>
 
-<details>
-<summary><strong>Contribution</strong></summary>
-
----
 # **PhysioChain - Open Source Contribution Guide**
 
 Welcome to **PhysioChain**, an open-source project aimed at revolutionizing physiotherapy through blockchain and AI technologies. We welcome contributions from developers, designers, and enthusiasts who are passionate about healthcare innovation. Below is a step-by-step guide to help you get started with contributing to the project.
 
+---
 
+## **Table of Contents**
+1. [**Project Overview**](#project-overview)
+2. [**Getting Started**](#getting-started)
+    > [**Fork the Repository**](#fork-the-repository)
+    
+    > [**Cloning the Repository**](#cloning-the-repository)
+    
+    > [**Syncing Your Fork**](#syncing-your-fork)
+    
+    > [**Setting Up the Environment**](#setting-up-the-environment)
+      
+    >> [**Smart Contracts**](#smart-contracts)
+      
+    >> [**Frontend (Patient App and Doctor App)**](#frontend-patient-app-and-doctor-app)
+      
+    >> [**Web Dashboard**](#web-dashboard)
+  
+3. [**Contributing Guidelines**](#contributing-guidelines)
+    
+    > [**Branching Strategy**](#branching-strategy)
+    
+    > [**Commit Message Format**](#commit-message-format)
+    
+    > [**Submitting Pull Requests**](#submitting-pull-requests)
+  
+4. [**Codebase Structure**](#codebase-structure)
+  
+5. [**Testing**](#testing)
+  
+6. [**Reporting Issues**](#reporting-issues)
+  
+7. [**Community and Support**](#community-and-support)
+
+---
 
 ## **Project Overview**
 
 PhysioChain is a decentralized, AI-powered physiotherapy platform that combines blockchain technology and artificial intelligence to address challenges in patient monitoring, adherence, and data privacy. The MVP focuses on building the core infrastructure, including smart contracts, token rewards, and basic frontend interfaces for patients and doctors.
 
-
+---
 
 ## **Getting Started**
 
@@ -774,179 +996,64 @@ Join our community to stay updated and collaborate with other contributors:
 Thank you for contributing to **PhysioChain**! Your efforts help us build a better future for decentralized healthcare. 🚀
 
 
+</section>
 
-</details>
+</div>
+</div>
 
+<style>
+    .tabs {
+        padding: 2rem;
+    }
 
-## Executive Summary
-PhysioChain is a decentralized, AI-powered physiotherapy platform that revolutionizes patient care by combining blockchain technology and artificial intelligence. For this MVP, we will focus on building the **Core Infrastructure**, which includes smart contracts for treatment plans, token rewards, and access control, as well as basic Web3 integration for patient and doctor interactions. This foundational layer will enable secure, transparent, and scalable operations for future features like AI exercise validation and advanced analytics.
+    .tabs input[type="radio"] {
+        display: none;
+    }
 
-### The MVP will demonstrate:
-1. Decentralized identity (DID) for secure logins.
-2. Smart contract-based treatment plans stored as NFTs.
-3. A tokenized rewards system ($PHYSIO) for incentivizing patient adherence.
-4. Basic frontend interfaces for patients and doctors to interact with the platform.
+    .tabs ul {
+        list-style-type: none;
+        padding-left: 0;
+        display: flex;
+        border-bottom: 1px solid #ddd;
+    }
 
-## Problem Statement
-Current physiotherapy practices face several challenges that can be addressed by the Core Infrastructure MVP:
-1. **Limited Patient Monitoring**: Patients are only monitored during in-person sessions, leading to gaps in care.
-2. **Inconsistent Exercise Adherence**: Patients often fail to perform exercises correctly or consistently at home.
-3. **Manual Progress Tracking**: Physiotherapists rely on manual documentation, which is time-consuming and error-prone.
-4. **Data Privacy Concerns**: Centralized systems raise privacy and security concerns for sensitive patient data.
+    .tabs ul li {
+        margin: 0 1rem;
+    }
 
-This MVP lays the foundation for addressing these challenges by enabling secure, decentralized, and incentivized patient engagement.
+    .tabs ul li label {
+        display: block;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
 
----
+    .tabs ul li label:hover {
+        color: #007bff;
+    }
 
-## Solution Overview (Core Infrastructure MVP)
+    .tabs .content {
+        margin-top: 1.5rem;
+    }
 
-### Key Features of the MVP
-1. **Decentralized Identity (DID)**:
-   
-    >Secure, privacy-preserving logins for patients and doctors using blockchain-based DID.
-   
-    >Ensures users have full control over their identities without relying on centralized servers.
+    .tabs .content section {
+        display: none;
+    }
 
-2. **Smart Contract-Based Treatment Plans**:
+    #tab1:checked~.content section:nth-of-type(1),
+    #tab2:checked~.content section:nth-of-type(2),
+    #tab3:checked~.content section:nth-of-type(3),
+    #tab4:checked~.content section:nth-of-type(4),
+    #tab5:checked~.content section:nth-of-type(5) {
+        display: block;
+    }
 
-    >Treatment plans stored as NFTs (ERC-721 or ERC-1155) on the blockchain.
-
-    >Immutable and transparent storage ensures trust and accountability.
-
-3. **Tokenized Rewards System**:
-
-    >Patients earn $PHYSIO tokens for completing prescribed exercises (to be validated manually in this MVP).
-
-    >Tokens can be redeemed for discounts, health products, or converted to fiat currency.
-
-4. **Access Control**:
-
-    >Role-based access control (RBAC) implemented via smart contracts.
-
-    >Patients grant temporary access to their records for specific doctors, logged on the blockchain for transparency.
-
-5. **Basic Frontend Interfaces**:
-   > **Patient App**: Allows patients to view treatment plans, track progress, and claim rewards.
-
-   > **Doctor App**: Enables doctors to create treatment plans, monitor patient adherence, and access anonymized data.
-
-6. **Gas Optimization**:
-   > Use Layer 2 solutions like Polygon to reduce transaction costs and improve scalability.
-
----
-
-## Technical Implementation (Core Infrastructure MVP)
-
-### System Architecture
-1. **Frontend**:
-   1. Built with **React Native** or **Flutter** for cross-platform compatibility.
-   
-        Features:
-        > Patient dashboard for viewing treatment plans and tracking rewards.
-
-        > Doctor dashboard for creating treatment plans and monitoring patient progress.
-
-2. **Backend**:
-   1. **Smart Contracts**: Developed in **Solidity** (Ethereum) or **Rust** (Solana).
-
-       Functions: 
-       > Create and store treatment plans as NFTs.
-
-       > Manage token rewards and distribution.
-
-       > Enforce role-based access control (RBAC).
-   
-   2. **Decentralized Storage**: Use **IPFS** for storing metadata related to treatment plans.
-
-3. **Blockchain Integration**:
-   > Deploy smart contracts on Ethereum (testnet) or Polygon (mainnet/testnet).
-   > Use **Web3.js** or **ethers.js** for blockchain interactions in the frontend.
-
-4. **Tokenomics**:
-   > Implement a simple ERC-20 token ($PHYSIO) for rewards.
-
-   > Integrate a token faucet for testing purposes.
-
----
-
-## Development Phases (MVP Timeline)
-
-### Phase 1: Planning and Setup (February 1 - February 5)
-1. Define requirements and finalize technical specifications.
-2. Set up development environment:
-    > Install tools like Hardhat/Truffle for smart contract development.
-
-    > Configure React Native/Flutter for frontend development.
-    
-    > Set up IPFS for decentralized storage.
-
-### Phase 2: Smart Contract Development (February 6 - February 12)
-1. Develop and test core smart contracts:
-  
-    > Treatment plan creation and storage as NFTs.
-  
-    > Token rewards system ($PHYSIO).
-  
-    > Access control mechanisms (RBAC).
-2. Optimize gas usage using Layer 2 solutions (Polygon).
-
-### Phase 3: Frontend Development (February 13 - February 17)
-1. Build basic frontend interfaces:
-    
-    > Patient app: View treatment plans, track rewards.
-    
-    > Doctor app: Create treatment plans, monitor adherence.
-2. Integrate Web3.js/ethers.js for blockchain interactions.
-
-### Phase 4: Testing and Deployment (February 18 - February 20)
-1. Conduct end-to-end testing:
-  
-    > Test smart contract functionality (e.g., minting NFTs, distributing tokens).
-  
-    > Test frontend interactions (e.g., login, viewing plans, claiming rewards).
-2. Deploy smart contracts on Polygon testnet/mainnet.
-3. Deploy frontend apps for demonstration.
-
----
-
-### Success Metrics (MVP)
-1. **Technical Metrics**:
-    
-    > Successful deployment of smart contracts on Polygon.
-    
-    > Functional token rewards system ($PHYSIO).
-    
-    > Proper implementation of RBAC for access control.
-
-2. **User Metrics**:
-    
-    > Ability for patients to view treatment plans and claim rewards.
-    
-    > Ability for doctors to create treatment plans and monitor adherence.
-
----
-
-### Risk Assessment (MVP)
-1. **Technical Risks**:
-    
-    > Smart contract vulnerabilities (e.g., reentrancy attacks).
-    
-    > Gas optimization challenges on Ethereum mainnet.
-    
-    > Integration issues between frontend and blockchain.
-
-2. **Mitigation Strategies**:
-    
-    > Conduct thorough testing and audits of smart contracts.
-    
-    > Use Polygon for gas-efficient transactions.
-    
-    > Start with a minimal feature set to ensure stability.
-
-
----
-
-### Conclusion
-The Core Infrastructure MVP of PhysioChain lays the foundation for a decentralized, AI-powered physiotherapy platform. By focusing on secure treatment plans, tokenized rewards, and role-based access control, this MVP demonstrates the potential of blockchain technology to address key challenges in physiotherapy. With its scalable architecture and user-friendly design, the MVP sets the stage for future enhancements, including AI exercise validation and advanced analytics.
-
-By February 20th, you will have a functional prototype that showcases the power of Web3 in healthcare, positioning PhysioChain as a transformative solution for patient care.
+    #tab1:checked~ul li:nth-of-type(1) label,
+    #tab2:checked~ul li:nth-of-type(2) label,
+    #tab3:checked~ul li:nth-of-type(3) label,
+    #tab4:checked~ul li:nth-of-type(4) label,
+    #tab5:checked~ul li:nth-of-type(5) label {
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+    }
+</style>
