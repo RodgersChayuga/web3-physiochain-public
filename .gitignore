@@ -1,0 +1,69 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+
+# ====================================== frontend ======================================
+# dependencies
+frontend/node_modules
+frontend/.pnp
+frontend/.pnp.js
+frontend/.yarn/install-state.gz
+
+# testing
+frontend/coverage
+
+frontend/*.yaml
+
+# next.js
+frontend/.next/
+frontend/out/
+
+# production
+frontend/build
+
+# misc
+frontend/.DS_Store
+frontend/*.pem
+
+# debug
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/*.yaml
+
+# local env files
+frontend/.env*.local
+
+# vercel
+frontend/.vercel
+
+# typescript
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# ====================================== contract ======================================
+contract/node_modules
+contract/.env
+
+contract/.DS_Store
+
+# Hardhat files
+contract/cache
+contract/artifacts
+
+# TypeChain files
+contract/typechain
+contract/typechain-types
+
+# solidity-coverage files
+contract/coverage
+contract/coverage.json
+
+# Hardhat Ignition default folder for deployments against a local node
+contract/ignition/deployments/chain-31337
+
+# .yaml files
+contract/*.yaml
+
+
+#================================== Root ==============================================
+.DS_Store
