@@ -41,28 +41,32 @@ frontend/*.tsbuildinfo
 frontend/next-env.d.ts
 
 # ====================================== contract ======================================
-contract/node_modules
-contract/.env
 
-contract/.DS_Store
+# development environment
+smart-contracts/node_modules
+smart-contracts/.env
+smart-contracts/*yaml
 
 # Hardhat files
-contract/cache
-contract/artifacts
+smart-contracts/cache
+smart-contracts/artifacts
 
 # TypeChain files
-contract/typechain
-contract/typechain-types
+smart-contracts/typechain
+smart-contracts/typechain-types
 
 # solidity-coverage files
-contract/coverage
-contract/coverage.json
+smart-contracts/coverage
+smart-contracts/coverage.json
 
 # Hardhat Ignition default folder for deployments against a local node
-contract/ignition/deployments/chain-31337
+smart-contracts/ignition/deployments/chain-31337
 
 # .yaml files
 contract/*.yaml
+
+# extras
+smart-contracts/.DS_Store
 
 
 #================================== Root ==============================================
