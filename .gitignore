@@ -63,7 +63,8 @@ frontend/next-env.d.ts
 /smart-contract/ignition/deployments/chain-31337
 
 # .yaml files
-smart-contract/*.yaml
+/smart-contract/*.yaml
+/physiochain/*.yaml
 
 # extras
 /smart-contract/.DS_Store
