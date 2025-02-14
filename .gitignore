@@ -64,7 +64,6 @@ frontend/next-env.d.ts
 
 # .yaml files
 /smart-contract/*.yaml
-/physiochain/*.yaml
 
 # extras
 /smart-contract/.DS_Store
