@@ -1,145 +1,73 @@
-// import { expect } from "chai";
-// import { ethers } from "hardhat";
-// import { PatientRewards } from "../../typechain-types"; // Adjust import based on your project setup
+import { expect } from "chai";
+import { ethers } from "hardhat";
+import { PatientRewards } from "../../typechain-types";
+import { DataManagement } from "../../typechain-types";
+import { PhysioToken } from "../../typechain-types";
 
-// describe("PatientRewards", function () {
-//     let patientRewards: PatientRewards;
-//     let physioToken: any; // Mock ERC20 token
-//     let owner: any, patient1: any, patient2: any;
+describe("PatientRewards Contract", function () {
+    let patientRewards: PatientRewards;
+    let dataManagement: DataManagement;
+    let physioToken: PhysioToken;
+    let owner: any;
+    let patient: any;
 
-//     const REWARD_PER_SESSION = ethers.parseEther("10"); // 10 $PHYSIO tokens per session
-//     const MILESTONE_REWARD = ethers.parseEther("100"); // 100 $PHYSIO tokens per milestone
-//     const STREAK_THRESHOLD = 7; // Days
-//     const SESSIONS_PER_MILESTONE = 10; // Sessions
+    beforeEach(async function () {
+        [owner, patient] = await ethers.getSigners();
 
-//     beforeEach(async function () {
-//         // Get signers (accounts) for testing
-//         [owner, patient1, patient2] = await ethers.getSigners();
+        // Deploy PhysioToken contract first
+        const PhysioTokenFactory = await ethers.getContractFactory("PhysioToken");
+        physioToken = await PhysioTokenFactory.deploy();
 
-//         // Deploy mock $PHYSIO token
-//         const PhysioTokenFactory = await ethers.getContractFactory("ERC20Mock"); // Use a mock ERC20 token
-//         physioToken = await PhysioTokenFactory.deploy("Physio Token", "PHYSIO");
-//         await physioToken.waitForDeployment();
+        // Grant DEFAULT_ADMIN_ROLE to owner if needed
+        const DEFAULT_ADMIN_ROLE = await physioToken.DEFAULT_ADMIN_ROLE();
+        if (!await physioToken.hasRole(DEFAULT_ADMIN_ROLE, owner.address)) {
+            await physioToken.connect(owner).grantRole(DEFAULT_ADMIN_ROLE, owner.address);
+        }
 
-//         // Deploy PatientRewards contract
-//         const PatientRewardsFactory = await ethers.getContractFactory("PatientRewards");
-//         patientRewards = await PatientRewardsFactory.deploy(await physioToken.getAddress());
-//         await patientRewards.waitForDeployment();
-//     });
+        // Deploy DataManagement contract
+        const DataManagementFactory = await ethers.getContractFactory("DataManagement");
+        dataManagement = await DataManagementFactory.deploy();
 
-//     describe("Deployment", function () {
-//         it("Should deploy the PatientRewards contract successfully", async function () {
-//             const address = await patientRewards.getAddress();
-//             expect(address).to.properAddress;
-//         });
+        // Deploy PatientRewards contract
+        const PatientRewardsFactory = await ethers.getContractFactory("PatientRewards");
+        patientRewards = await PatientRewardsFactory.deploy(
+            await physioToken.getAddress(),
+            await dataManagement.getAddress()
+        );
 
-//         it("Should initialize reward thresholds correctly", async function () {
-//             expect(await patientRewards.SESSIONS_PER_MILESTONE()).to.equal(SESSIONS_PER_MILESTONE);
-//             expect(await patientRewards.STREAK_THRESHOLD()).to.equal(STREAK_THRESHOLD);
-//         });
-//     });
+        // Grant MINTER_ROLE to PatientRewards contract from owner
+        const MINTER_ROLE = await physioToken.MINTER_ROLE();
+        await physioToken.connect(owner).grantRole(MINTER_ROLE, await patientRewards.getAddress());
 
-//     describe("Exercise Logging and Rewards", function () {
-//         it("Should log an exercise completion and reward tokens", async function () {
-//             // Mint tokens to the contract
-//             await physioToken.mint(await patientRewards.getAddress(), REWARD_PER_SESSION);
+        const DATA_MANAGER_ROLE = await dataManagement.DATA_MANAGER_ROLE();
+        await dataManagement.connect(owner).grantRole(DATA_MANAGER_ROLE, owner.address);
+    });
 
-//             // Log exercise completion
-//             await patientRewards.connect(patient1).logExerciseCompletion();
+    it("Should reward a patient for completing milestones", async function () {
+        // Update patient's milestones in DataManagement
+        const sessionsCompleted = 20; // 2 milestones
+        await dataManagement.connect(owner).updatePatientMilestones(patient.address, sessionsCompleted);
 
-//             // Check progress
-//             const progress = await patientRewards.patientProgress(patient1.address);
-//             expect(progress.totalSessionsCompleted).to.equal(1);
-//             expect(progress.currentStreak).to.equal(1);
+        // Check and reward the patient
+        await patientRewards.checkAndRewardPatient(patient.address);
 
-//             // Check token balance
-//             const balance = await physioToken.balanceOf(patient1.address);
-//             expect(balance).to.equal(REWARD_PER_SESSION);
-//         });
+        // Verify the reward amount
+        const expectedReward = ethers.parseEther("210"); // (sessionsCompleted / 10) * 100 + 10
+        const patientBalance = await physioToken.balanceOf(patient.address);
+        expect(patientBalance).to.equal(expectedReward);
+    });
 
-//         it("Should reward milestone tokens after completing 10 sessions", async function () {
-//             // Mint tokens to the contract
-//             const totalReward = (REWARD_PER_SESSION * BigInt(SESSIONS_PER_MILESTONE)) + MILESTONE_REWARD;
-//             await physioToken.mint(await patientRewards.getAddress(), totalReward);
+    it("Should reward a patient for maintaining a streak", async function () {
+        // Update patient's adherence rate in DataManagement
+        const adherenceRate = 100; // Perfect adherence
+        await dataManagement.connect(owner).updatePatientAdherence(patient.address, adherenceRate);
 
-//             // Complete 10 sessions
-//             for (let i = 0; i < SESSIONS_PER_MILESTONE; i++) {
-//                 await patientRewards.connect(patient1).logExerciseCompletion();
-//             }
+        // Check and reward the patient
+        await patientRewards.checkAndRewardPatient(patient.address);
 
-//             // Check progress
-//             const progress = await patientRewards.patientProgress(patient1.address);
-//             expect(progress.totalSessionsCompleted).to.equal(SESSIONS_PER_MILESTONE);
-//             expect(progress.milestonesAchieved).to.equal(1);
-
-//             // Check token balance
-//             const balance = await physioToken.balanceOf(patient1.address);
-//             expect(balance).to.equal(totalReward);
-//         });
-
-//         it("Should reset streak if more than 1 day passes between exercises", async function () {
-//             // Mint tokens to the contract
-//             await physioToken.mint(await patientRewards.getAddress(), REWARD_PER_SESSION * 3n);
-
-//             // Log first exercise
-//             await patientRewards.connect(patient1).logExerciseCompletion();
-
-//             // Simulate time passing (more than 1 day)
-//             await ethers.provider.send("evm_increaseTime", [86400 * 2]); // 2 days
-//             await ethers.provider.send("evm_mine", []);
-
-//             // Log second exercise
-//             await patientRewards.connect(patient1).logExerciseCompletion();
-
-//             // Check progress
-//             const progress = await patientRewards.patientProgress(patient1.address);
-//             expect(progress.currentStreak).to.equal(1); // Streak resets
-//         });
-
-//         it("Should reward streak tokens after maintaining a 7-day streak", async function () {
-//             // Mint tokens to the contract
-//             const totalReward = (REWARD_PER_SESSION * BigInt(STREAK_THRESHOLD)) + MILESTONE_REWARD;
-//             await physioToken.mint(await patientRewards.getAddress(), totalReward);
-
-//             // Complete 7 sessions within 7 days
-//             for (let i = 0; i < STREAK_THRESHOLD; i++) {
-//                 await patientRewards.connect(patient1).logExerciseCompletion();
-//                 await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
-//                 await ethers.provider.send("evm_mine", []);
-//             }
-
-//             // Check progress
-//             const progress = await patientRewards.patientProgress(patient1.address);
-//             expect(progress.currentStreak).to.equal(STREAK_THRESHOLD);
-
-//             // Check token balance
-//             const balance = await physioToken.balanceOf(patient1.address);
-//             expect(balance).to.equal(totalReward);
-//         });
-//     });
-
-//     describe("Edge Cases", function () {
-//         it("Should not reward tokens if contract has insufficient funds", async function () {
-//             await expect(patientRewards.connect(patient1).logExerciseCompletion()).to.be.revertedWith(
-//                 "Token transfer failed"
-//             );
-//         });
-
-//         it("Should handle multiple patients independently", async function () {
-//             // Mint tokens to the contract
-//             await physioToken.mint(await patientRewards.getAddress(), REWARD_PER_SESSION * 2n);
-
-//             // Patient 1 logs an exercise
-//             await patientRewards.connect(patient1).logExerciseCompletion();
-
-//             // Patient 2 logs an exercise
-//             await patientRewards.connect(patient2).logExerciseCompletion();
-
-//             // Check balances
-//             const balance1 = await physioToken.balanceOf(patient1.address);
-//             const balance2 = await physioToken.balanceOf(patient2.address);
-//             expect(balance1).to.equal(REWARD_PER_SESSION);
-//             expect(balance2).to.equal(REWARD_PER_SESSION);
-//         });
-//     });
-// });
+        // Verify the reward amount
+        const expectedReward = ethers.parseEther("110"); // Streak reward + session reward
+        const patientBalance = await physioToken.balanceOf(patient.address);
+        expect(patientBalance).to.equal(expectedReward);
+    });
+});
