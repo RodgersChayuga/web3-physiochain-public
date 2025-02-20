@@ -1,0 +1,32 @@
+[
+  {
+    "DIDRegistry": "0x14C467A23Ba3c134DD353A55b49314eDDCb55185",
+    "PhysioToken": "0x02B8C2cDa8697c94a2e204586569762b364fae43",
+    "DataManagement": "0x5beB37ceC88C24B497Eef49Eb7159A9E7A4323B5",
+    "PatientRegistry": "0x7380fdb909419A14680a5733bCDC7aF978319FB8",
+    "DoctorRegistry": "0xD8Aa43c83D779A9f01ea408FE6EdAC0eF9231795",
+    "InstitutionRegistry": "0x292EB15e0F87B4bf33ae27d465EdD3CA65b066EC",
+    "DoctorPayment": "0xE69506166EA9d5910cb786eD6Fe70f7Fd935B78A",
+    "DoctorRewards": "0x4314DD62dB5BBAA3729C6d8A2839f301099418Ae",
+    "PatientRewards": "0x2FF4d921484B19f9a1E45Cf5BC0bA60E12427047",
+    "TreatmentPlanNFT": "0x7918fb8cae1fB65DDf50999146BbBF502CeBda87",
+    "AnalyticsContract": "0xa8D99f7167F7847BB0a4Cb60390245f8B90644d8",
+    "FeedbackContract": "0x2d1c7c004EFaaDd3Ae7EB11d8D8f7265D9012459",
+    "WearableDataIntegration": "0x9354882bCe15e07837589d73df9cB69cBb2A8846"
+  },
+  {
+    "DIDRegistry": "0xa04cd401d28b8afad24fe6238e73fd24f67f83404da98a3c5e4abfa3ddbc2d52",
+    "PhysioToken": "0x3c84a107494cd14fdefa0693773f1f7d778f791da7b70574939d4aa86d626607",
+    "DataManagement": "0x373b30c540fdbeba9a2594ee85c70b4e0bfbcfaf9eb7b411f17bc31cab2b3ae6",
+    "PatientRegistry": "0xcf3a3c5ac81f7f30df73fba551b50855e2a82f10728dc2e4235c2c858a5d6fca",
+    "DoctorRegistry": "0xbcec0e6e0d0521e6ce0c288081b55080f50063fe5013c8d58de19e6f60eb1f54",
+    "InstitutionRegistry": "0x4b5a1032ccd33f933a0736c6f871b98c7cc5ddbaa55d0bfd026b76bb06f6d5c2",
+    "DoctorPayment": "0xc102de989ea33bb83040e7d40ecd0fe2c9d6100ceaa6ca17fbfa5baf158c501d",
+    "DoctorRewards": "0xeeab1d69e1b93c5d953a70b24d36afb91d166493be71d3cf7166d5fd5518cfd3",
+    "PatientRewards": "0x6dcfe63a970c96f7ca77646480e2ec45ff9966174fa438c48f5fac074733209d",
+    "TreatmentPlanNFT": "0x27181eee1e8a3766b476704423c6cb7199e0eca5bd27a1a1b4bc556e3de90e0f",
+    "AnalyticsContract": "0x9873da91ed8e296113465542ab09d656ac7bd1671b462361b26879c8d7767f81",
+    "FeedbackContract": "0x815b2cfde77478375b54bec15eba4ada95dd7f50bdd2a5fd7435925933132346",
+    "WearableDataIntegration": "0x602f11907b13fabd5efa941424a2bdc0a0b0618599839ed327f7e63664b77376"
+  }
+]

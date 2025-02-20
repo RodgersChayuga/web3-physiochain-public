@@ -1,0 +1,32 @@
+[
+  {
+    "DIDRegistry": "0x1c85e4cAd409da41754689844FAeD86Cf234f50e",
+    "PhysioToken": "0xd2367F315623146459d64a27B1EA9f04bC91Bebf",
+    "DataManagement": "0x8362c7BDd77506f3Aa77CCe2ee288090392712Cb",
+    "PatientRegistry": "0x48C3EcF3aB7F0D7aCCDD2c4408B4a4691F2E61AE",
+    "DoctorRegistry": "0x5AB26864ea108A23316B4DD892C06759E6718225",
+    "InstitutionRegistry": "0x4c6c5ea8Ce59cCB586cdC1dae152E1822231d10D",
+    "DoctorPayment": "0x43BC9ACF40B5AAa27D5c8A3D23ee6a58Cf746fA4",
+    "DoctorRewards": "0xf6Ee88976354053c5f1C0Ed367d55A2FC6831FA0",
+    "PatientRewards": "0x4B415AAd03b8c245B7E4053a19BBC61E78E0d3d4",
+    "TreatmentPlanNFT": "0x3E93eCe2A8350865a3034b1E55fC0483A92afcd0",
+    "AnalyticsContract": "0xdf0Dd2FF7594d137cC241b445e059ddf24932A2C",
+    "FeedbackContract": "0x3eea30D9b59271C9ef94FeF07b427d933eCC4770",
+    "WearableDataIntegration": "0x3FEc40d298119431741bfA4920240c06e42f3185"
+  },
+  {
+    "DIDRegistry": "0xe4f44663ea1fe1fc24f2ca837f1469ec61422199abe0b7ad0c0ab27f5a51bcd1",
+    "PhysioToken": "0x285de5237030fffa748650c6fc52cfd7c05245036474ba96a9a89b7c42bda35c",
+    "DataManagement": "0xc6529618437e4549ffa962de8a0e38f1612842b7b00f476269598cae3037d656",
+    "PatientRegistry": "0x32666d80a99a4513eabd450353d8a0fc920aaae13837152d9447b0882da4ef9a",
+    "DoctorRegistry": "0x23334681a9494c462839a02a54b1474c2117af0d1c3f4b8ba9b5d62fcef26e85",
+    "InstitutionRegistry": "0xa11d54afc2abfa2e39592a845602805e09bf22dd527b6f7afcd622c3389f9975",
+    "DoctorPayment": "0xb0b9deed834c10974fc091bdfd009b1c383220f385616d166a98fb279fdf0f67",
+    "DoctorRewards": "0x244ce572633fd3f23a931577dae647d17fe0d8fc22684b044ab4c9082d7b5687",
+    "PatientRewards": "0xa1b18f6fade58b2dd2ce3103fe6d2167a73c8b1f07855638384b69b97b08509f",
+    "TreatmentPlanNFT": "0xcbf9b9c3fdb89afffa114766258190277e9a53771440e85c34a7eb82d490c102",
+    "AnalyticsContract": "0x335b9e6dd54788e7f8bd871a6b16f62b9a822c9137c27eb17dbd1551b2e694f0",
+    "FeedbackContract": "0xe91e5cfbee8c18534a2e7c7cc8e0c892c8f3b1d90487ece9c27dc332b3be567a",
+    "WearableDataIntegration": "0x56163ab025f4f26e384bbb63b2e723ae01d858e2aff171c418e90a33c5be9cee"
+  }
+]
