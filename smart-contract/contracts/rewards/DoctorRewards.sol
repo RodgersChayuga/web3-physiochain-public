@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./PhysioToken.sol";
 import "../data-manager/DataManagement.sol";
 
-contract DoctorReward is AccessControl {
+contract DoctorRewards is AccessControl {
     bytes32 public constant REWARDER_ROLE = keccak256("REWARDER_ROLE");
 
     PhysioToken public physioToken;
