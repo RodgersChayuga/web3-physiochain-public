@@ -43,7 +43,7 @@ contract PatientRewards is AccessControl {
      * @param patient The address of the patient
      */
     function checkAndRewardPatient(address patient) external {
-        // Fetch metrics from DataManagement
+        // Fetch metrics using clearer function names
         uint256 sessionsCompleted = dataManagement.getPatientMilestones(
             patient
         );

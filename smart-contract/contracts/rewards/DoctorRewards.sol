@@ -28,8 +28,10 @@ contract DoctorReward is AccessControl {
      * @dev Function to calculate and distribute rewards to a doctor
      * @param doctor The address of the doctor
      */
-    function rewardDoctor(address doctor) external onlyRole(REWARDER_ROLE) {
-        // Fetch performance metrics from the Data Management Contract
+    function checkAndRewardDoctor(
+        address doctor
+    ) external onlyRole(REWARDER_ROLE) {
+        // Fetch metrics using consistent function names
         uint256 adherenceRate = dataManagement.getDoctorAdherence(doctor);
         uint256 outcomeScore = dataManagement.getDoctorOutcome(doctor);
         uint256 peerReviewScore = dataManagement.getDoctorPeerReview(doctor);
@@ -77,8 +79,8 @@ contract DoctorReward is AccessControl {
      * @return The reward amount in tokens
      */
     function calculateReward(uint256 score) internal pure returns (uint256) {
-        // Example: Reward scales linearly with score (adjust as needed)
-        return score * 10; // 10 tokens per score point
+        // Convert score to tokens with 18 decimals
+        return score * 10 * 1e18; // 10 tokens per score point, with 18 decimals
     }
 
     /**
