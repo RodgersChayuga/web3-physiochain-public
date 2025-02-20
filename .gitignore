@@ -40,29 +40,29 @@ frontend/.vercel
 frontend/*.tsbuildinfo
 frontend/next-env.d.ts
 
-# ====================================== contract ======================================
-contract/node_modules
-contract/.env
+# ====================================== smart-contract ======================================
+smart-contract/node_modules
+smart-contract/.env
 
-contract/.DS_Store
+smart-contract/.DS_Store
 
 # Hardhat files
-contract/cache
-contract/artifacts
+smart-contract/cache
+smart-contract/artifacts
 
 # TypeChain files
-contract/typechain
-contract/typechain-types
+smart-contract/typechain
+smart-contract/typechain-types
 
 # solidity-coverage files
-contract/coverage
-contract/coverage.json
+smart-contract/coverage
+smart-contract/coverage.json
 
 # Hardhat Ignition default folder for deployments against a local node
-contract/ignition/deployments/chain-31337
+smart-contract/ignition/deployments/chain-31337
 
 # .yaml files
-contract/*.yaml
+smart-contract/*.yaml
 
 
 #================================== Root ==============================================
