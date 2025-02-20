@@ -73,21 +73,60 @@ async function main() {
     await WearableDataIntegration.waitForDeployment();
     console.log("WearableDataIntegration Contract Deployed at:", WearableDataIntegration.target);
 
-    // Save all deployment addresses
+    // Save all deployment addresses and transaction hashes
     const deployments = {
-        DIDRegistry: DIDRegistry.target,
-        PhysioToken: PhysioToken.target,
-        DataManagement: DataManagement.target,
-        PatientRegistry: PatientRegistry.target,
-        DoctorRegistry: DoctorRegistry.target,
-        InstitutionRegistry: InstitutionRegistry.target,
-        DoctorPayment: DoctorPayment.target,
-        DoctorRewards: DoctorRewards.target,
-        PatientRewards: PatientRewards.target,
-        TreatmentPlanNFT: TreatmentPlanNFT.target,
-        AnalyticsContract: AnalyticsContract.target,
-        FeedbackContract: FeedbackContract.target,
-        WearableDataIntegration: WearableDataIntegration.target
+        DIDRegistry: {
+            address: DIDRegistry.target,
+            deploymentHash: DIDRegistry.deploymentTransaction()?.hash
+        },
+        PhysioToken: {
+            address: PhysioToken.target,
+            deploymentHash: PhysioToken.deploymentTransaction()?.hash
+        },
+        DataManagement: {
+            address: DataManagement.target,
+            deploymentHash: DataManagement.deploymentTransaction()?.hash
+        },
+        PatientRegistry: {
+            address: PatientRegistry.target,
+            deploymentHash: PatientRegistry.deploymentTransaction()?.hash
+        },
+        DoctorRegistry: {
+            address: DoctorRegistry.target,
+            deploymentHash: DoctorRegistry.deploymentTransaction()?.hash
+        },
+        InstitutionRegistry: {
+            address: InstitutionRegistry.target,
+            deploymentHash: InstitutionRegistry.deploymentTransaction()?.hash
+        },
+        DoctorPayment: {
+            address: DoctorPayment.target,
+            deploymentHash: DoctorPayment.deploymentTransaction()?.hash
+        },
+        DoctorRewards: {
+            address: DoctorRewards.target,
+            deploymentHash: DoctorRewards.deploymentTransaction()?.hash
+        },
+        PatientRewards: {
+            address: PatientRewards.target,
+            deploymentHash: PatientRewards.deploymentTransaction()?.hash
+        },
+        TreatmentPlanNFT: {
+            address: TreatmentPlanNFT.target,
+            deploymentHash: TreatmentPlanNFT.deploymentTransaction()?.hash
+        },
+        AnalyticsContract: {
+            address: AnalyticsContract.target,
+            deploymentHash: AnalyticsContract.deploymentTransaction()?.hash
+        },
+        FeedbackContract: {
+            address: FeedbackContract.target,
+            deploymentHash: FeedbackContract.deploymentTransaction()?.hash
+        },
+        WearableDataIntegration: {
+            address: WearableDataIntegration.target,
+            deploymentHash: WearableDataIntegration.deploymentTransaction()?.hash
+        }
     };
 
     console.log('\nAll deployment addresses:', deployments);
