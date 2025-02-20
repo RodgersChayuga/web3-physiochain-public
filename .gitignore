@@ -40,30 +40,62 @@ frontend/.vercel
 frontend/*.tsbuildinfo
 frontend/next-env.d.ts
 
-# ====================================== smart-contract ======================================
-smart-contract/node_modules
-smart-contract/.env
+# ====================================== smart-contract ================================
 
-smart-contract/.DS_Store
+# development environment
+/smart-contract/node_modules
+/smart-contract/.env
+/smart-contract/.deps
 
 # Hardhat files
-smart-contract/cache
-smart-contract/artifacts
+/smart-contract/cache
+/smart-contract/artifacts
 
 # TypeChain files
-smart-contract/typechain
-smart-contract/typechain-types
+/smart-contract/typechain
+/smart-contract/typechain-types
 
 # solidity-coverage files
-smart-contract/coverage
-smart-contract/coverage.json
+/smart-contract/coverage
+/smart-contract/coverage.json
 
 # Hardhat Ignition default folder for deployments against a local node
-smart-contract/ignition/deployments/chain-31337
+/smart-contract/ignition/deployments/chain-31337
 
 # .yaml files
-smart-contract/*.yaml
+/smart-contract/*.yaml
 
+# extras
+/smart-contract/.DS_Store
+
+# IDE
+/smart-contract/.vscode
+/smart-contract/.idea
+
+# Logs
+/smart-contract/logs
+/smart-contract/*.log
+/smart-contract/npm-debug.log*
+/smart-contract/yarn-debug.log*
+/smart-contract/yarn-error.log*
+
+# Local files
+/smart-contract/.DS_Store
+/smart-contract/*.local
+
+# Testing
+/smart-contract/coverage/
+/smart-contract/coverage.json
+
+# Production build
+/smart-contract/dist/
+/smart-contract/build/
+
+# Optional npm cache directory
+/smart-contract/.npm
+
+# Optional eslint cache
+/smart-contract/.eslintcache
 
 #================================== Root ==============================================
 .DS_Store
