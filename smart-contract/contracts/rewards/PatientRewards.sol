@@ -3,7 +3,7 @@ pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./PhysioToken.sol";
-import "../data-manager/DataManagement.sol";
+import "../data-and-security/DataManagement.sol";
 
 contract PatientRewards is AccessControl {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");

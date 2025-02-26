@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import "../DIDRegistry.sol"; // Import the DIDRegistry contract;
+import "../registries/DIDRegistry.sol"; // Import the DIDRegistry contract;
 
 contract PatientRegistry is DIDRegistry {
     constructor() DIDRegistry() {}
