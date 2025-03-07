@@ -3,42 +3,42 @@
 
 # ====================================== frontend ======================================
 # dependencies
-frontend/node_modules
-frontend/.pnp
-frontend/.pnp.js
-frontend/.yarn/install-state.gz
+/frontend/therahub-web/node_modules
+/frontend/therahub-web/.pnp
+/frontend/therahub-web/.pnp.js
+/frontend/therahub-web/.yarn/install-state.gz
 
 # testing
-frontend/coverage
+/frontend/therahub-web/coverage
 
-frontend/*.yaml
+/frontend/therahub-web/*.yaml
 
 # next.js
-frontend/.next/
-frontend/out/
+/frontend/therahub-web/.next/
+/frontend/therahub-web/out/
 
 # production
-frontend/build
+/frontend/therahub-web/build
 
 # misc
-frontend/.DS_Store
-frontend/*.pem
+/frontend/therahub-web/.DS_Store
+/frontend/therahub-web/*.pem
 
 # debug
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
-frontend/*.yaml
+/frontend/therahub-web/npm-debug.log*
+/frontend/therahub-web/yarn-debug.log*
+/frontend/therahub-web/yarn-error.log*
+/frontend/therahub-web/*.yaml
 
 # local env files
-frontend/.env*.local
+/frontend/therahub-web/.env*.local
 
 # vercel
-frontend/.vercel
+/frontend/therahub-web/.vercel
 
 # typescript
-frontend/*.tsbuildinfo
-frontend/next-env.d.ts
+/frontend/therahub-web/*.tsbuildinfo
+/frontend/therahub-web/next-env.d.ts
 
 # ====================================== smart-contract ================================
 

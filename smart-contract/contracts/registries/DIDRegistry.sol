@@ -22,14 +22,13 @@ contract DIDRegistry is ReentrancyGuard, AccessControl {
         uint256 reactivatedAt;
         string encryptedBiologicalDetails; // Encrypted sensitive data
         string nationalIDHash; // IPFS hash of national ID
-        string passportPhotoHash; // IPFS hash of passport photo
+        address createdByDoctor; // Address of the doctor who created this patient
     }
 
     struct DoctorRegistrationRequest {
         string did;
         string licenseNumber;
         string nationalIDHash; // IPFS hash of national ID
-        string passportPhotoHash; // IPFS hash of passport photo
         bool isVerified;
     }
 
@@ -40,6 +39,8 @@ contract DIDRegistry is ReentrancyGuard, AccessControl {
     mapping(address => mapping(address => bool)) public authorizedDoctors; // Patient -> Doctor -> Authorization
     mapping(address => DoctorRegistrationRequest) public doctorRequests;
     mapping(address => address[]) public patientDoctors; // Patient -> List of authorized doctors
+    mapping(string => address) public patientKeys; // Patient key -> Doctor address (temporary)
+    mapping(string => address) public keyToPatient; // Patient key -> Patient address (permanent)
 
     // Roles
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -63,6 +64,11 @@ contract DIDRegistry is ReentrancyGuard, AccessControl {
     event DoctorRegistrationRequested(
         address indexed doctor,
         string licenseNumber
+    );
+    event PatientRegisteredByKey(
+        address indexed patient,
+        address indexed doctor,
+        string patientKey
     );
 
     // Constructor
@@ -119,7 +125,7 @@ contract DIDRegistry is ReentrancyGuard, AccessControl {
         address user,
         string memory did,
         UserType userType
-    ) public onlyRole(ADMIN_ROLE) userNotRegistered(user) validDID(did) {
+    ) internal onlyRole(ADMIN_ROLE) userNotRegistered(user) validDID(did) {
         require(userType != UserType.None, "Invalid user type");
         users[user] = UserInfo({
             did: did,
@@ -129,69 +135,169 @@ contract DIDRegistry is ReentrancyGuard, AccessControl {
             reactivatedAt: 0,
             encryptedBiologicalDetails: "",
             nationalIDHash: "",
-            passportPhotoHash: ""
+            createdByDoctor: address(0)
         });
         usedDIDs[did] = true;
         emit DIDRegistered(user, did, userType);
+    }
+
+    // ------------------------------------------ DOCTOR REGISTRATION ------------------------------------------------
+
+    // Oracle-related variables
+    address public oracleAddress; // Address of the oracle contract
+    mapping(bytes32 => address) public pendingDoctorRequests; // Request ID -> Doctor Address
+
+    // Event for oracle response
+    event DoctorVerificationRequest(
+        bytes32 indexed requestId,
+        address indexed doctor
+    );
+
+    // Set oracle address (Admin-only)
+    function setOracleAddress(
+        address _oracleAddress
+    ) external onlyRole(ADMIN_ROLE) {
+        oracleAddress = _oracleAddress;
     }
 
     // Doctor self-registration request
     function requestDoctorRegistration(
         string memory did,
         string memory licenseNumber,
-        string memory nationalIDHash,
-        string memory passportPhotoHash
+        string memory nationalIDHash
     ) public userNotRegistered(msg.sender) validDID(did) {
         require(
             !usedLicenseNumbers[licenseNumber],
             "License number already in use"
         );
+
+        // Store the request temporarily
         doctorRequests[msg.sender] = DoctorRegistrationRequest({
             did: did,
             licenseNumber: licenseNumber,
             nationalIDHash: nationalIDHash,
-            passportPhotoHash: passportPhotoHash,
             isVerified: false
         });
-        usedLicenseNumbers[licenseNumber] = true;
-        emit DoctorRegistrationRequested(msg.sender, licenseNumber);
-    }
 
-    // Verify doctor registration request (Admin-only)
-    function verifyDoctor(
-        address doctor,
-        bool isVerified
-    ) public onlyRole(ADMIN_ROLE) {
-        require(
-            bytes(doctorRequests[doctor].licenseNumber).length > 0,
-            "No pending request"
+        // Generate a unique request ID
+        bytes32 requestId = keccak256(
+            abi.encodePacked(msg.sender, block.timestamp)
         );
-        if (isVerified) {
-            registerUser(doctor, doctorRequests[doctor].did, UserType.Doctor);
-        }
-        doctorRequests[doctor].isVerified = isVerified;
+
+        // Store the pending request
+        pendingDoctorRequests[requestId] = msg.sender;
+
+        // Emit event for oracle to listen
+        emit DoctorVerificationRequest(requestId, msg.sender);
     }
 
-    // Patient registration by verified doctors
-    function registerPatient(
-        address patient,
+    // Callback function for oracle response
+    function verifyDoctorRegistration(
+        bytes32 requestId,
+        bool isVerified,
+        string memory name, // Additional data from government system
+        string memory licenseStatus // Additional data from government system
+    ) external {
+        require(
+            msg.sender == oracleAddress,
+            "Only oracle can call this function"
+        );
+        address doctor = pendingDoctorRequests[requestId];
+        require(doctor != address(0), "Invalid request ID");
+
+        if (isVerified) {
+            // Register the doctor
+            users[doctor] = UserInfo({
+                did: doctorRequests[doctor].did,
+                userType: UserType.Doctor,
+                isActive: true,
+                deactivatedAt: 0,
+                reactivatedAt: 0,
+                encryptedBiologicalDetails: "",
+                nationalIDHash: doctorRequests[doctor].nationalIDHash,
+                createdByDoctor: address(0)
+            });
+            usedDIDs[doctorRequests[doctor].did] = true;
+            usedLicenseNumbers[doctorRequests[doctor].licenseNumber] = true;
+            emit DIDRegistered(
+                doctor,
+                doctorRequests[doctor].did,
+                UserType.Doctor
+            );
+
+            // Clean up the pending request
+            delete pendingDoctorRequests[requestId];
+            delete doctorRequests[doctor];
+        } else {
+            // Clean up the pending request even if verification fails
+            delete pendingDoctorRequests[requestId];
+            delete doctorRequests[doctor];
+        }
+    }
+
+    // ------------------------------------------ END DOCTOR REGISTRATION ------------------------------------------------
+
+    // Generate a unique key for creating a Patient
+    function generatePatientKey(string memory key) public onlyDoctor {
+        require(bytes(key).length == 4, "Key must be 4 characters long");
+        require(patientKeys[key] == address(0), "Key already exists");
+        patientKeys[key] = msg.sender;
+    }
+
+    // Patient self-registration with a patient key
+    function registerPatientWithKey(
         string memory did,
-        string memory biologicalDetails,
-        string memory nationalIDHash,
-        string memory passportPhotoHash
-    ) public onlyDoctor userNotRegistered(patient) validDID(did) {
-        users[patient] = UserInfo({
+        string memory patientKey
+    ) public userNotRegistered(msg.sender) validDID(did) {
+        address doctor = patientKeys[patientKey];
+        require(doctor != address(0), "Invalid patient key");
+        require(
+            isUserOfType(doctor, UserType.Doctor),
+            "Key must be generated by a verified doctor"
+        );
+        require(
+            keyToPatient[patientKey] == address(0),
+            "Key already used for another patient"
+        );
+
+        // Register the patient
+        users[msg.sender] = UserInfo({
             did: did,
             userType: UserType.Patient,
             isActive: true,
             deactivatedAt: 0,
             reactivatedAt: 0,
-            encryptedBiologicalDetails: biologicalDetails,
-            nationalIDHash: nationalIDHash,
-            passportPhotoHash: passportPhotoHash
+            encryptedBiologicalDetails: "",
+            nationalIDHash: "",
+            createdByDoctor: doctor
         });
+
+        // Link the key to the patient permanently
+        keyToPatient[patientKey] = msg.sender;
+
+        // Delete the key from patientKeys to save storage
+        delete patientKeys[patientKey];
+
         usedDIDs[did] = true;
-        emit DIDRegistered(patient, did, UserType.Patient);
+        emit DIDRegistered(msg.sender, did, UserType.Patient);
+        emit PatientRegisteredByKey(msg.sender, doctor, patientKey);
+    }
+
+    // Get patient and doctor by key
+    function getPatientByKey(
+        string memory patientKey
+    ) public view returns (address patient, address doctor) {
+        address patientAddress = keyToPatient[patientKey];
+        require(
+            patientAddress != address(0),
+            "Key not associated with any patient"
+        );
+        UserInfo memory info = users[patientAddress];
+        require(
+            info.userType == UserType.Patient,
+            "Key does not correspond to a patient"
+        );
+        return (patientAddress, info.createdByDoctor);
     }
 
     // Deactivate a user (Admin-only)
@@ -265,9 +371,14 @@ contract DIDRegistry is ReentrancyGuard, AccessControl {
     )
         public
         view
-        returns (string memory did, UserType userType, bool isActive)
+        returns (
+            string memory did,
+            UserType userType,
+            bool isActive,
+            address createdByDoctor
+        )
     {
         UserInfo memory info = users[user];
-        return (info.did, info.userType, info.isActive);
+        return (info.did, info.userType, info.isActive, info.createdByDoctor);
     }
 }
